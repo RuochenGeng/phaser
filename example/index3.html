@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./phaser.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var game = new Phaser.Game(800, 600, Phaser.CANVAS, '', {
+            preload: preload,
+            create: create,
+            update: update
+        });
+        //游戏资源
+        function preload() {
+            game.load.image('sky', 'assets/sky.png');
+            game.load.image('ground', 'assets/platform.png');
+            game.load.image('star', 'assets/star.png');
+            game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+
+        }
+        var platform;
+        var ground;
+        var player;
+        var star;
+
+
+        //创建场景
+        function create() {
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+            game.add.sprite(0, 0, 'sky');
+            game.add.sprite(400, 400, 'ground');
+            game.add.sprite(-150, 250, 'ground');
+            ground = game.add.sprite(0, game.world.height - 32, 'ground');
+            ground.scale.setTo(2, 2);
+            game.physics.arcade.enable(ground);
+            ground.body.immovable = true;
+
+            player = game.add.sprite(32, game.world.height - 150, 'dude');
+            game.physics.arcade.enable(player);
+            player.body.gravity.y = 300;
+            player.body.collideWorldBounds = true;
+        }
+
+        //游戏循环
+        function update() {
+            game.physics.arcade.collide(player, ground);
+        }
+
+
+    </script>
+</body>
+
+</html>
